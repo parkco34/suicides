@@ -1,0 +1,10 @@
+#Directories
+bin/
+include/
+lib/
+share/
+src/
+
+# Files
+Pip*
+pyvenv*
