@@ -28,7 +28,6 @@ def find_directory(directory_name):
         
     """
     # Establish root path in directory above the current directory
-    os.chdir("../")
     root_path = os.getcwd()
 
     for dirpath, dirnames, filenames in os.walk(root_path):
@@ -36,7 +35,7 @@ def find_directory(directory_name):
         if directory_name in dirnames:
             return root_path + '/' + directory_name + '/'
 
-    return None
+    return "./"
 
 def consolidate_csv(directory):
     """
@@ -45,10 +44,10 @@ def consolidate_csv(directory):
     csv_files = [file for file in os.listdir(directory) if file.endswith(".csv")]
     # Sort to maintains date order
     csv_files.sort()
-
+    breakpoint()
     # Read and concatenate files
-    dataframes = [pd.read_csv(os.path.join(directory, file), index_col=False) for file in
-                  csv_files]
+    for file in csv_files:
+
     # Concatenate without inserting new column for indices
     combined = pd.concat(dataframes, ignore_index=True)
 
@@ -71,7 +70,7 @@ def missing_values(dataframe):
     """
     pass
 
-directory_name = "Suicides"
+directory_name = "data"
 thing = find_directory(directory_name)
 combined = consolidate_csv(thing)
 columns = list(combined.columns) # List of column names
