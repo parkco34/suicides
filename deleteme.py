@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import os
 import pandas as pd
+import os
 
 """
 ========================================================================
@@ -45,9 +45,7 @@ def consolidate_csv(directory):
     # Sort to maintains date order
     csv_files.sort()
     breakpoint()
-    # Read and concatenate files
-    for file in csv_files:
-
+    dataframes = [pd.read_csv(os.path.join(directory, file), index_col=False) for file in csv_files]
     # Concatenate without inserting new column for indices
     combined = pd.concat(dataframes, ignore_index=True)
 
@@ -72,10 +70,12 @@ def missing_values(dataframe):
 
 directory_name = "data"
 thing = find_directory(directory_name)
-combined = consolidate_csv(thing)
-columns = list(combined.columns) # List of column names
-
 breakpoint()
 
+#combined = consolidate_csv(thing)
+#columns = list(combined.columns) # List of column names
+
+#breakpoint()
+
 # Write to csv file
-combined.to_csv(thing + "combined.csv", index=False)
+#combined.to_csv(thing + "combined.csv", index=False)
