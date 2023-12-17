@@ -50,16 +50,14 @@ The dataset spans from 2005 to 2011 and contains information about veteran suici
 - Be cautious in the interpretation and dissemination of results.
 
 ## Tools and Libraries
-- Python (Pandas, Scikit-learn, Matplotlib, Seaborn)
-- R (optional, for supplementary analysis)
+- Python (Pandas, Matplotlib, Seaborn)
 
 ## Future Work
 - Explore additional models and compare their performances.
 - Incorporate more granular data, if available.
 
 ## Contributors
-- [Your Name]
-- [Other Contributors, if any]
+- ParkDaddy
 
 ## Acknowledgements
 - Data Sources (e.g., Department of Veterans Affairs, CDC)

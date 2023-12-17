@@ -28,12 +28,11 @@ class DataPreparation(object):
             csv_files: (list) List of csv files .(Default: empty list)
         """
         # Current directory
-        current_dir = os.getcwd()
+        self.current_dir = os.getcwd()
 
         # If target directory not the current one, search for it from here
-        if current_dir != self.target_directory:
-
-            for root, dirs, files in os.walk(current_dir):
+        if self.current_dir != self.target_directory:
+            for root, dirs, files in os.walk(self.current_dir):
                 # If target directory in the subdirectories, collect csv files
                 for dir in dirs:
                     if dir == self.target_directory:
@@ -48,20 +47,56 @@ class DataPreparation(object):
             # Failure
             return None
 
+        else:
+            csv_files = [file for file in os.listdir() if file.endswith(".csv")]
+            csv_files.sort()
+            return csv_files
 
-    def consolidate_csv(self):
+
+    def consolidate_csv(self, files_list):
         """
         Consolidates csv files into one pandas dataframe.
         ------------------------------------------------------------
         Inputs:
+            files_list: (list) List of csv files.
 
         Outputs:
-
+            dataframe: (pandas DataFrame) One dataframe with all dataframes
+            concatenated.
         """
-        pass
+        # List of dataframes
+        dataframes = [pd.read_csv(os.path.join(self.current_dir,
+                                               self.target_directory + "/" +  file), index_col=False) for file in files_list]
+        # Concatenate into one dataframe
+        dataframe = pd.concat(dataframes, ignore_index=True)
+        return dataframe
 
-        
+    def clean_data(self, dataframe):
+        """
+        Removes unwanted features (columns) from dataframe:
+            - Begins with "Unnamed"
+            - Ends with "_p" or "rate"
+        ---------------------------------------------------------------
+        Inputs:
+            dataframe: (pandas DataFrame)
+
+        Outputs:
+            df_cleaned: (pandas DataFrame) without unwanted columns.
+        """
+        # Columns that start with "Unnamed"
+        unnamed_cols = dataframe.filter(regex="^Unnamed").columns
+        # Columns with "_p" or "rate"
+        special_cols = dataframe.filter(regex="_p$|rate$").columns
+        # # Combine both lists
+        columns_to_drop = unnamed_cols.union(special_cols)
+        # Drop columns!
+        df_cleaned = dataframe.drop(columns=columns_to_drop)
+
+        return df_cleaned
 
 prep = DataPreparation() # DataPreparation object
 files = prep.get_files()
+dataframe = prep.consolidate_csv(files)
+df_cleaned = prep.clean_data(dataframe)
 breakpoint()
+df_cleaned.to_csv("~/Desktop/df_cleaned.csv", index=False)
