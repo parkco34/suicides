@@ -94,9 +94,22 @@ class DataPreparation(object):
 
         return df_cleaned
 
+    def missing_values(self):
+        """
+        Handles missing values in data by simply filling in NaN with zeros.
+        """
+        pass
+
+
 prep = DataPreparation() # DataPreparation object
 files = prep.get_files()
 dataframe = prep.consolidate_csv(files)
 df_cleaned = prep.clean_data(dataframe)
+
+
 breakpoint()
-df_cleaned.to_csv("~/Desktop/df_cleaned.csv", index=False)
+
+
+
+
+#df_cleaned.to_csv("~/Desktop/df_cleaned.csv", index=False)
